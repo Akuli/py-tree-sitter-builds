@@ -28,10 +28,8 @@ jobs:
       # This is by design, this way tests import whatever is installed and not from the project.
       # This means that we have to avoid importing from the directory where the tests are.
       #
-      # tests/__init__.py is an empty file that causes pytest to be "helpful" by inserting the
+      # tests/__init__.py is an empty file that causes unittest to be "helpful" by inserting the
       # wrong directory to the beginning of sys.path.
-      #
-      # TODO: possible to use "python -m unittest" instead of pytest?
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: del tests\__init__.py
       - if: ${{ !startsWith(matrix.os, 'windows') }}
@@ -74,10 +72,7 @@ jobs:
       - run: pip install cibuildwheel==2.5.0
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          # nobody seems to use python 3.6 and pytest no longer supports it
-          CIBW_SKIP: cp36-*
-          CIBW_BEFORE_TEST: pip install pytest==7.1.2
-          CIBW_TEST_COMMAND: pytest -s {project}/tests
+          CIBW_TEST_COMMAND: python -m unittest discover -s {project}/tests
       - uses: actions/upload-artifact@v2
         with:
           name: wheelhouse
