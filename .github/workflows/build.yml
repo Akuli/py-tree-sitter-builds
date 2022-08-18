@@ -53,7 +53,7 @@ jobs:
           # Temporary Debug asddsd
           replace(
               'from tree_sitter import Language, Parser',
-              'import os, importlib.util, sys; raise RuntimeError(f"in {os.getcwd()}: {os.listdir()}, {sys.path}, {importlib.util.find_spec(\'tree_sitter\')}"); from tree_sitter import Language, Parser',
+              'import os, importlib.util, sys; print(f"in {os.getcwd()}: {os.listdir()}, {sys.path}, {importlib.util.find_spec(\'tree_sitter\')}"); from tree_sitter import Language, Parser',
           )
 
         shell: python
