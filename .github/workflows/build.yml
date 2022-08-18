@@ -43,10 +43,17 @@ jobs:
               'path.join(path.dirname(path.dirname(path.abspath(__file__))), "',
           )
 
-          # Always build a new languages binary. Without patching it looks at modified time, similar to Makefiles.
+          # Build a new languages binary for each wheel.
+          # Without patching it looks at modified time, similar to Makefiles.
           replace(
               '\nLanguage.build_library(\n    LIB_PATH,\n',
               '\nimport os\ntry:\n    os.remove(LIB_PATH)\nexcept FileNotFoundError:\n    pass\nLanguage.build_library(\n    LIB_PATH,\n',
+          )
+
+          # Temporary Debug asddsd
+          replace(
+              'from tree_sitter import Language, Parser',
+              'import os, importlib.util, sys; print("in", os.getcwd()); print(os.listdir()); print(importlib.util.find_spec("tree_sitter")); print(sys.path); from tree_sitter import Language, Parser',
           )
 
         shell: python
