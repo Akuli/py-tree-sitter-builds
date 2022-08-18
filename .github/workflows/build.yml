@@ -24,6 +24,32 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.10'
+      - name: Patch tests
+        run: |
+          from pathlib import Path
+          path = Path("tests/test_tree_sitter.py")
+
+          def replace(old, new):
+              old_content = path.read_text()
+              new_content = old_content.replace(old, new)
+              assert old_content != new_content
+              path.write_text(new_content)
+
+          # Do not rely on current working directory.
+          # cibuildwheel uses a funny working directory when running tests.
+          # This is by design, this way tests import whatever is installed and not from the project.
+          replace(
+              'path.join("',
+              'path.join(path.dirname(path.dirname(path.abspath(__file__))), "',
+          )
+
+          # Always build a new languages binary. Without patching it looks at modified time, similar to Makefiles.
+          replace(
+              '\nLanguage.build_library(\n    LIB_PATH,\n',
+              '\nimport os\ntry:\n    os.remove(LIB_PATH)\nexcept FileNotFoundError:\n    pass\nLanguage.build_library(\n    LIB_PATH,\n',
+          )
+
+        shell: python
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: cmd script\fetch-fixtures.cmd
       - if: ${{ !startsWith(matrix.os, 'windows') }}
