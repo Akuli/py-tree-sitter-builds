@@ -6,4 +6,5 @@ Todo:
 - Usage/installation/requirements.txt instructions, or a release on pypi?
 - Clean up the patching
 - Make this repo public
+- Make sure that GitHub Actions run on pull request as they should
 - Post a comment to https://github.com/tree-sitter/py-tree-sitter/issues/103
