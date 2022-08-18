@@ -24,8 +24,14 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.10'
+      # cibuildwheel uses a funny working directory when running tests.
+      # This is by design, this way tests import whatever is installed and not from the project.
+      # This means that we have to avoid importing from the directory where the tests are.
+      #
       # tests/__init__.py is an empty file that causes pytest to be "helpful" by inserting the
-      # wrong directory to the beginning of sys.path, and that breaks importing from tree_sitter
+      # wrong directory to the beginning of sys.path.
+      #
+      # TODO: possible to use "python -m unittest" instead of pytest?
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: del tests\__init__.py
       - if: ${{ !startsWith(matrix.os, 'windows') }}
@@ -42,8 +48,6 @@ jobs:
               path.write_text(new_content, encoding="utf-8")
 
           # Do not rely on current working directory.
-          # cibuildwheel uses a funny working directory when running tests.
-          # This is by design, this way tests import whatever is installed and not from the project.
           replace(
               'path.join("',
               'path.join(path.dirname(path.dirname(path.abspath(__file__))), "',
