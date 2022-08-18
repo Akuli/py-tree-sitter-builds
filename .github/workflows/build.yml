@@ -27,7 +27,7 @@ jobs:
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: cmd script\fetch-fixtures.cmd
       - if: ${{ !startsWith(matrix.os, 'windows') }}
-        run: scripts/fetch-fixtures
+        run: script/fetch-fixtures
       - run: pip install cibuildwheel==2.5.0
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
