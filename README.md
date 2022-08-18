@@ -5,4 +5,5 @@ Todo:
 - Write a better description for the project, explaining the background and mentioning py-tree-sitter-languages
 - Usage/installation/requirements.txt instructions, or a release on pypi?
 - Clean up the patching
+- Make this repo public
 - Post a comment to https://github.com/tree-sitter/py-tree-sitter/issues/103
