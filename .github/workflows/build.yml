@@ -49,11 +49,6 @@ jobs:
               '\nimport os\ntry:\n    os.remove(LIB_PATH)\nexcept FileNotFoundError:\n    pass\nLanguage.build_library(\n    LIB_PATH,\n',
           )
 
-          # Temporary Debug asddsd
-          replace(
-              'from tree_sitter import Language, Parser',
-              'import os, importlib.util; print("in", os.getcwd()); print(os.listdir()); print(importlib.util.find_spec("tree_sitter")); from tree_sitter import Language, Parser',
-          )
         shell: python
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: cmd script\fetch-fixtures.cmd
@@ -63,9 +58,7 @@ jobs:
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_BEFORE_TEST: pip install pytest==7.1.2
-          CIBW_TEST_COMMAND: pytest -s {project}/tests/
-          # nobody seems to use python 3.6 and pytest no longer supports it
-          CIBW_SKIP: cp36-*
+          CIBW_TEST_COMMAND: python3 -m unittest discover -s {project}
       - uses: actions/upload-artifact@v2
         with:
           name: wheelhouse
