@@ -8,4 +8,5 @@ Todo:
 - Clean up the patching
 - Make this repo public
 - Make sure that GitHub Actions run on pull request as they should
+- Use this thing in Porcupine
 - Post a comment to https://github.com/tree-sitter/py-tree-sitter/issues/103
