@@ -64,7 +64,7 @@ jobs:
       - run: pip install cibuildwheel==2.5.0
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_TEST_COMMAND: python3 -m unittest discover -s {project}
+          CIBW_TEST_COMMAND: python3 -c "import sys; print(sys.path)"
       - uses: actions/upload-artifact@v2
         with:
           name: wheelhouse
