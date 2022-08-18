@@ -61,7 +61,7 @@ jobs:
           # nobody seems to use python 3.6 and pytest no longer supports it
           CIBW_SKIP: cp36-*
           CIBW_BEFORE_TEST: pip install pytest==7.1.2
-          CIBW_TEST_COMMAND: pytest {project}/tests
+          CIBW_TEST_COMMAND: pytest -s {project}/tests
       - uses: actions/upload-artifact@v2
         with:
           name: wheelhouse
