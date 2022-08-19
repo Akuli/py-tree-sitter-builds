@@ -19,9 +19,9 @@ These two projects provide binary wheels, i.e. platform-specific `.whl` files th
 This project is currently not published to PyPI, so installation is a bit of a mess:
 1. Download the correct wheel file from [the releases page](https://github.com/Akuli/py-tree-sitter-builds/releases).
     For example, if you have:
-    - Python 3.9 installation (`cp3.9`)
+    - Python 3.9 installation (`cp39`)
     - A typical Linux distribution (`manylinux`)
-    - 64-bit Intel processor (`x86_64`)
+    - 64-bit Intel CPU (`x86_64`)
 
     you would choose `tree_sitter-0.20.0-cp39-cp39-musllinux_1_1_x86_64.whl`.
 
