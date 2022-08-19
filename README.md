@@ -81,7 +81,7 @@ If this is a problem for you, please create an issue.
 Read `.github/workflows/build.yml` to see how GitHub actions builds the wheels.
 Here are the steps, at a high level:
 - Download py-tree-sitter v0.20.0 from GitHub (latest released version at the time of writing this)
-- Apply a patch to its tests so that they don't rely on the current working directory
+- Apply a patch to its tests to make them work when cibuildwheel runs them
 - Invoke [cibuildwheel](https://github.com/pypa/cibuildwheel)
 - Once the above steps have ran on Windows, MacOS and Linux, create a release on GitHub and upload the wheels there
 
