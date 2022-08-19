@@ -16,27 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: tree-sitter/py-tree-sitter
-          ref: v0.20.0
-          submodules: true
-      - uses: actions/checkout@v3
-        with:
-          path: this-repository
+          repository: pypa/sampleproject
+          ref: d424e4310bda95f5ae8cfdf1de583a973680cf88
       - uses: actions/setup-python@v2
         with:
           python-version: '3.10'
-      # cibuildwheel uses a funny working directory when running tests.
-      # This is by design, this way tests import whatever is installed and not from the project.
-      # This means that the tests can't load files from the current working directory.
-      # Fix them to not rely on current working directory.
-      #
-      # Also rebuild the languages binary for each wheel.
-      # By default it uses modified time with nothing to distinguish different Pythons.
-      - run: git apply this-repository/tests.patch
-      - if: ${{ startsWith(matrix.os, 'windows') }}
-        run: script\fetch-fixtures.cmd
-      - if: ${{ !startsWith(matrix.os, 'windows') }}
-        run: script/fetch-fixtures
       - run: pip install cibuildwheel==2.5.0
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
