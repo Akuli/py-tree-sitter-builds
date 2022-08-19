@@ -56,7 +56,7 @@ jobs:
 
       # TODO: remove tagging steps
       - uses: actions/checkout@v3
-      - run: git tag v0.0.3-asdasd
+      - run: git tag v0.0.4-asdasd
       - run: git push --tags origin
 
       - uses: actions/download-artifact@v2
@@ -69,6 +69,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v0.0.3-asdasd
-          name: 0.0.3+test-asdasd
+          tag_name: v0.0.4-asdasd
+          name: 0.0.4+test-asdasd
           files: '*.whl'
