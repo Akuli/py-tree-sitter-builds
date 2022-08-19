@@ -7,11 +7,11 @@ on:
   pull_request:
 
 jobs:
-  builds:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, macos-11, windows-2022]
+        os: [macos-11]
 
     steps:
       - uses: actions/checkout@v3
@@ -40,8 +40,40 @@ jobs:
       - run: pip install cibuildwheel==2.5.0
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
+          CIBW_BUILD: cp38-macosx_x86_64  # TODO: remove
           CIBW_TEST_COMMAND: python -m unittest discover -s {project}/tests
       - uses: actions/upload-artifact@v2
         with:
           name: wheelhouse
           path: ./wheelhouse/*.whl
+
+  release:
+    runs-on: ubuntu-latest
+    # https://stackoverflow.com/a/58478262
+    needs: [build]
+    #if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: wheelhouse
+      - run: ls -la
+
+      # TODO: remove tagging steps
+      - uses: actions/checkout@v3
+      - run: git tag v0.0.1-asdasd
+      - run: git push --tags origin
+
+      - id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          #tag_name: ${{ github.ref }}
+          tag_name: v0.0.1-asdasd
+          release_name: 0.0.1+test-asdasd
+      - uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: '*.whl'
