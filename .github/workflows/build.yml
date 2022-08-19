@@ -60,20 +60,14 @@ jobs:
 
       # TODO: remove tagging steps
       - uses: actions/checkout@v3
-      - run: git tag v0.0.1-asdasd
+      - run: git tag v0.0.2-asdasd
       - run: git push --tags origin
 
       - id: create_release
-        uses: actions/create-release@v1.1.4
+        uses: softprops/action-gh-release@v0.1.14
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          #tag_name: ${{ github.ref }}
-          tag_name: v0.0.1-asdasd
-          release_name: 0.0.1+test-asdasd
-      - uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          tag_name: v0.0.2-asdasd
+          release_name: 0.0.2+test-asdasd
           asset_path: '*.whl'
