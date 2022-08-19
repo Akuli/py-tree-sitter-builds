@@ -1,0 +1,30 @@
+diff --git a/tests/test_tree_sitter.py b/tests/test_tree_sitter.py
+--- a/tests/test_tree_sitter.py
++++ b/tests/test_tree_sitter.py
+@@ -1,16 +1,23 @@
+ # pylint: disable=missing-docstring
+ 
++import os
+ import re
+ from unittest import TestCase
+ from os import path
+ from tree_sitter import Language, Parser
+ 
+-LIB_PATH = path.join("build", "languages.so")
++project_root = path.dirname(path.dirname(path.abspath(__file__)))
++LIB_PATH = path.join(project_root, "build", "languages.so")
++try:
++    os.remove(LIB_PATH)
++except FileNotFoundError:
++    pass
++
+ Language.build_library(
+     LIB_PATH,
+     [
+-        path.join("tests", "fixtures", "tree-sitter-python"),
+-        path.join("tests", "fixtures", "tree-sitter-javascript"),
++        path.join(project_root, "tests", "fixtures", "tree-sitter-python"),
++        path.join(project_root, "tests", "fixtures", "tree-sitter-javascript"),
+     ],
+ )
+ PYTHON = Language(LIB_PATH, "python")
