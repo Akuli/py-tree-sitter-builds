@@ -60,7 +60,7 @@ jobs:
 
       # TODO: remove tagging steps
       - uses: actions/checkout@v3
-      - run: git tag v0.0.2-asdasd
+      - run: git tag v0.0.3-asdasd
       - run: git push --tags origin
 
       - id: create_release
@@ -68,6 +68,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v0.0.2-asdasd
-          release_name: 0.0.2+test-asdasd
-          asset_path: '*.whl'
+          tag_name: v0.0.3-asdasd
+          name: 0.0.3+test-asdasd
+          files: '*.whl'
