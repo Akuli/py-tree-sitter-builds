@@ -40,6 +40,7 @@ jobs:
       - run: pip install cibuildwheel==2.5.0
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
+          CIBW_BUILD: cp38-macosx_x86_64  # TODO: remove
           CIBW_TEST_COMMAND: python -m unittest discover -s {project}/tests
       - uses: actions/upload-artifact@v2
         with:
@@ -56,15 +57,23 @@ jobs:
         with:
           name: wheelhouse
       - run: ls -la
-#      - id: create_release
-#        uses: actions/create-release@v1.1.4
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: ${{ github.ref }}
-#          release_name: ${{ github.ref }}
-#      - uses: actions/upload-release-asset@v1.0.1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+      # TODO: remove tagging steps
+      - uses: actions/checkout@v3
+      - run: git tag v0.0.1-asdasd
+      - run: git push --tags origin
+
+      - id: create_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          #tag_name: ${{ github.ref }}
+          tag_name: v0.0.1-asdasd
+          release_name: 0.0.1+test-asdasd
+      - uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: '*.whl'
