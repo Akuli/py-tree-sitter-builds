@@ -46,6 +46,10 @@ jobs:
           name: wheelhouse
           path: ./wheelhouse/*.whl
 
+  # To trigger a release, push a tag:
+  #
+  #   $ git tag v0.20.0   # take first two numbers from py-tree-sitter version
+  #   $ git push --tags origin
   release:
     runs-on: ubuntu-latest
     # https://stackoverflow.com/a/58478262
