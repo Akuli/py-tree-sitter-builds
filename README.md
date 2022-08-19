@@ -34,8 +34,7 @@ If you want to use this project in a `requirements.txt`,
 you should realistically just wait until something is properly published on PyPI.
 
 <details>
-<summary>A mess you can put to your `requirements.txt` if you don't want to wait</summary>
-but you can also just ignore that and the following mess to your `requirements.txt`:
+<summary>A mess you can put to your requirements.txt if you don't want to wait</summary>
 
 ```
 # Install py-tree-sitter 0.20.0 from github.com/Akuli/py-tree-sitter-builds.
