@@ -1,5 +1,4 @@
 diff --git a/tests/test_tree_sitter.py b/tests/test_tree_sitter.py
-index e4841c2..e0d2c31 100644
 --- a/tests/test_tree_sitter.py
 +++ b/tests/test_tree_sitter.py
 @@ -1,16 +1,23 @@
