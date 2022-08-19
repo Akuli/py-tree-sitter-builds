@@ -53,15 +53,16 @@ jobs:
     needs: [build]
     #if: startsWith(github.ref, 'refs/tags/v')
     steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: wheelhouse
-      - run: ls -la
 
       # TODO: remove tagging steps
       - uses: actions/checkout@v3
       - run: git tag v0.0.3-asdasd
       - run: git push --tags origin
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: wheelhouse
+      - run: ls -la
 
       - id: create_release
         uses: softprops/action-gh-release@v0.1.14
@@ -70,4 +71,4 @@ jobs:
         with:
           tag_name: v0.0.3-asdasd
           name: 0.0.3+test-asdasd
-          files: wheelhouse/*.whl
+          files: '*.whl'
