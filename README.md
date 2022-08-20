@@ -62,7 +62,7 @@ tree-sitter @ https://github.com/Akuli/py-tree-sitter-builds/releases/download/v
 tree-sitter @ https://github.com/Akuli/py-tree-sitter-builds/releases/download/v0.20.0/tree_sitter-0.20.0-cp38-cp38-win_amd64.whl ; python_version == '3.8' and sys_platform == 'win32' and platform_machine == 'AMD64'
 tree-sitter @ https://github.com/Akuli/py-tree-sitter-builds/releases/download/v0.20.0/tree_sitter-0.20.0-cp39-cp39-win_amd64.whl ; python_version == '3.9' and sys_platform == 'win32' and platform_machine == 'AMD64'
 tree-sitter @ https://github.com/Akuli/py-tree-sitter-builds/releases/download/v0.20.0/tree_sitter-0.20.0-cp310-cp310-win_amd64.whl ; python_version == '3.10' and sys_platform == 'win32' and platform_machine == 'AMD64'
-# 64-bit MacOS. Error if not Intel processor (or running under emulated Intel processor).
+# 64-bit MacOS. Works only on Intel CPU or under Intel emulation on arm64 macs.
 tree-sitter @ https://github.com/Akuli/py-tree-sitter-builds/releases/download/v0.20.0/tree_sitter-0.20.0-cp36-cp36m-macosx_10_9_x86_64.whl ; python_version == '3.6' and sys_platform == 'darwin'
 tree-sitter @ https://github.com/Akuli/py-tree-sitter-builds/releases/download/v0.20.0/tree_sitter-0.20.0-cp37-cp37m-macosx_10_9_x86_64.whl ; python_version == '3.7' and sys_platform == 'darwin'
 tree-sitter @ https://github.com/Akuli/py-tree-sitter-builds/releases/download/v0.20.0/tree_sitter-0.20.0-cp38-cp38-macosx_10_9_x86_64.whl ; python_version == '3.8' and sys_platform == 'darwin'
