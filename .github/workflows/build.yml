@@ -57,7 +57,6 @@ jobs:
           name: wheelhouse
       - name: Get file names from README to text file
         run: |
-          echo ${{ github.ref }}
           if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             release=$(echo "${{ github.ref }}" | cut -d/ -f3)
             regex="https://github.com/Akuli/py-tree-sitter-builds/releases/download/$release/[^/ ]*\.whl"
