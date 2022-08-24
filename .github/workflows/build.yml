@@ -47,14 +47,40 @@ jobs:
           name: wheelhouse
           path: ./wheelhouse/*.whl
 
-  # To trigger a release, push a tag:
+  # Ensure that wheel file names in README.md match file names from build
+  check-filenames:
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v2
+        with:
+          name: wheelhouse
+      - uses: softprops/action-gh-release@v0.1.14
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: '*.whl'
+      - run: |
+          echo ${{ github.ref }}
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            release=$(echo "${{ github.ref }}" | cut -d/ -f3)
+            regex="https://github.com/Akuli/py-tree-sitter-builds/releases/download/$release/[^/ ]*\.whl"
+          else
+            regex="https://github.com/Akuli/py-tree-sitter-builds/releases/download/v[^/ ]*/[^/ ]*\.whl"
+          fi
+          echo "$regex"
+          grep -oE "$regex" README.md | xargs basename -a | sort | uniq > readme_filenames.txt
+          printf "%s\n" *.whl | sort | uniq > build_filenames.txt
+          diff -u --color=always readme_filenames.txt build_filenames.txt
+
+  # To trigger a release, push a calver-style tag:
   #
-  #   $ git tag v0.20.0   # take first two numbers from py-tree-sitter version
+  #   $ git tag v$(date +%Y-%m-%d)
   #   $ git push --tags origin
   release:
     runs-on: ubuntu-latest
     # https://stackoverflow.com/a/58478262
-    needs: [build]
+    needs: [check-filenames]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/download-artifact@v2
