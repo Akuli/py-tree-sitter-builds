@@ -49,6 +49,7 @@ jobs:
 
   # Ensure that wheel file names in README.md match file names from build
   check-filenames:
+    runs-on: ubuntu-20.04
     needs: [build]
     steps:
       - uses: actions/checkout@v3
