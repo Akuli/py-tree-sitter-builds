@@ -55,7 +55,8 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: wheelhouse
-      - run: |
+      - name: Get file names from README to text file
+        run: |
           echo ${{ github.ref }}
           if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             release=$(echo "${{ github.ref }}" | cut -d/ -f3)
@@ -65,8 +66,9 @@ jobs:
           fi
           echo "$regex"
           grep -oE "$regex" README.md | xargs basename -a | sort | uniq > readme_filenames.txt
+      - run: |
           printf "%s\n" *.whl | sort | uniq > build_filenames.txt
-          diff -u --color=always readme_filenames.txt build_filenames.txt
+      - run: diff -u --color=always readme_filenames.txt build_filenames.txt
 
   # To trigger a release, push a calver-style tag:
   #
