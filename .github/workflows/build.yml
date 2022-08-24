@@ -37,7 +37,7 @@ jobs:
         run: script\fetch-fixtures.cmd
       - if: ${{ !startsWith(matrix.os, 'windows') }}
         run: script/fetch-fixtures
-      - run: pip install cibuildwheel==2.5.0
+      - run: pip install cibuildwheel==2.9.0
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_TEST_COMMAND: python -m unittest discover -s {project}/tests
