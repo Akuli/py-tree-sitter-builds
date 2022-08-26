@@ -23,7 +23,7 @@ This project is currently not published to PyPI, so installation is a bit of a m
     - A typical Linux distribution (`manylinux`)
     - 64-bit Intel CPU (`x86_64`)
 
-    you would choose `tree_sitter-0.20.0-cp39-cp39-musllinux_1_1_x86_64.whl`.
+    you would choose `tree_sitter-0.20.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl`.
     On newer arm64 Macs, choose either `x86_64` or `arm64` depending on which kind of Python you have
     (try `print(platform.machine())`).
 
