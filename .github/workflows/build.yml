@@ -68,7 +68,7 @@ jobs:
           grep -oE "$regex" README.md | xargs basename -a | sort | uniq > readme_filenames.txt
       - name: Get list of relevant wheel file names built
         run: |
-          printf "%s\n" *.whl | grep -vE 'pypy|musllinux' | sort | uniq > build_filenames.txt
+          printf "%s\n" *.whl | grep -vE 'pypy|musllinux' | sort > build_filenames.txt
       - run: diff -u --color=always readme_filenames.txt build_filenames.txt
 
   # To trigger a release, push a calver-style tag:
