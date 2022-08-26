@@ -25,7 +25,7 @@ This project is currently not published to PyPI, so installation is a bit of a m
 
     you would choose `tree_sitter-0.20.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl`.
 
-2. Run `pip install path/to/downloaded/file.whl`, for example `pip install Downloads/tree_sitter-0.20.0-cp39-cp39-musllinux_1_1_x86_64.whl`.
+2. Run `pip install path/to/downloaded/file.whl`, for example `pip install Downloads/tree_sitter-0.20.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl`.
 
 For a more permanent solution, I will probably publish this project on PyPI
 unless the py-tree-sitter maintainers are interested in making this a part of the official `py-tree-sitter` repository.
