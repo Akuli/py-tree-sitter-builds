@@ -24,6 +24,8 @@ This project is currently not published to PyPI, so installation is a bit of a m
     - 64-bit Intel CPU (`x86_64`)
 
     you would choose `tree_sitter-0.20.0-cp39-cp39-musllinux_1_1_x86_64.whl`.
+    On newer arm64 Macs, choose either `x86_64` or `arm64` depending on which kind of Python you have
+    (try `print(platform.machine())`).
 
 2. Run `pip install path/to/downloaded/file.whl`, for example `pip install Downloads/tree_sitter-0.20.0-cp39-cp39-musllinux_1_1_x86_64.whl`.
 
@@ -81,9 +83,6 @@ tree-sitter @ https://github.com/Akuli/py-tree-sitter-builds/releases/download/v
 ```
 
 </details>
-
-Newer, arm-based macs are supported only if you use Python compiled for Intel (x86_64) processors.
-If this is a problem for you, please create an issue.
 
 
 ## How does it work?
