@@ -21,7 +21,7 @@ This project is currently not published to PyPI, so installation is a bit of a m
     For example, if you have:
     - Python 3.9 installation (`cp39`)
     - A typical Linux distribution (`manylinux`)
-    - 64-bit Intel CPU (`x86_64`)
+    - 64-bit Intel CPU (`x86_64`, if you are not sure try `import platform; print(platform.machine())`)
 
     you would choose `tree_sitter-0.20.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl`.
     On newer arm64 Macs, choose either `x86_64` or `arm64` depending on which kind of Python you have
