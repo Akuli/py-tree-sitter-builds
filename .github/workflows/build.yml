@@ -77,7 +77,7 @@ jobs:
   #   $ git add README.md
   #   $ git commit -m "Replace new version to README"
   #   $ git tag v$(date +%Y-%m-%d)
-  #   $ git push --tags origin
+  #   $ git push --tags origin main
   release:
     runs-on: ubuntu-latest
     # https://stackoverflow.com/a/58478262
