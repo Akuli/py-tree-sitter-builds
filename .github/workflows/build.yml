@@ -37,23 +37,51 @@ jobs:
         run: script\fetch-fixtures.cmd
       - if: ${{ !startsWith(matrix.os, 'windows') }}
         run: script/fetch-fixtures
-      - run: pip install cibuildwheel==2.5.0
+      - run: pip install cibuildwheel==2.9.0
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_TEST_COMMAND: python -m unittest discover -s {project}/tests
+          CIBW_ARCHS_MACOS: x86_64 arm64
       - uses: actions/upload-artifact@v2
         with:
           name: wheelhouse
           path: ./wheelhouse/*.whl
 
-  # To trigger a release, push a tag:
+  # Ensure that wheel file names in README.md match file names from build
+  check-filenames:
+    runs-on: ubuntu-20.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v2
+        with:
+          name: wheelhouse
+      - name: Get file names from README to text file
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            release=$(echo "${{ github.ref }}" | cut -d/ -f3)
+            regex="https://github.com/Akuli/py-tree-sitter-builds/releases/download/$release/[^/ ]*\.whl"
+          else
+            regex="https://github.com/Akuli/py-tree-sitter-builds/releases/download/v[^/ ]*/[^/ ]*\.whl"
+          fi
+          echo "$regex"
+          grep -oE "$regex" README.md | xargs basename -a | sort | uniq > readme_filenames.txt
+      - name: Get list of relevant wheel file names built
+        run: |
+          printf "%s\n" *.whl | grep -vE 'pypy|musllinux' | sort > build_filenames.txt
+      - run: diff -u --color=always readme_filenames.txt build_filenames.txt
+
+  # To trigger a release:
   #
-  #   $ git tag v0.20.0   # take first two numbers from py-tree-sitter version
-  #   $ git push --tags origin
+  #   $ sed -i s/v20[0-9][0-9]\.[0-9][0-9]\.[0-9][0-9]/v$(date +%Y-%m-%d)/g README.md
+  #   $ git add README.md
+  #   $ git commit -m "Replace new version to README"
+  #   $ git tag v$(date +%Y-%m-%d)
+  #   $ git push --tags origin main
   release:
     runs-on: ubuntu-latest
     # https://stackoverflow.com/a/58478262
-    needs: [build]
+    needs: [check-filenames]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/download-artifact@v2
