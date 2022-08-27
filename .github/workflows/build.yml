@@ -25,6 +25,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.10'
+
       # cibuildwheel uses a funny working directory when running tests.
       # This is by design, this way tests import whatever is installed and not from the project.
       # This means that the tests can't load files from the current working directory.
@@ -33,10 +34,23 @@ jobs:
       # Also rebuild the languages binary for each wheel.
       # By default it uses modified time with nothing to distinguish different Pythons.
       - run: git apply this-repository/tests.patch
+
+      # Upload as tree-sitter-builds, not as tree-sitter
+      - run: git apply this-repository/setup.patch
+
+      # Use this project's README as description in PyPI
+      - if: ${{ startsWith(matrix.os, 'windows') }}
+        run: copy this-repository\README.md README.md
+      - if: ${{ !startsWith(matrix.os, 'windows') }}
+        run: cp this-repository/README.md README.md
+
+      # Download language repositories for py-tree-sitter tests
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: script\fetch-fixtures.cmd
       - if: ${{ !startsWith(matrix.os, 'windows') }}
         run: script/fetch-fixtures
+
+      # Build wheels
       - run: pip install cibuildwheel==2.9.0
       - run: python -m cibuildwheel --output-dir wheelhouse
         env:
@@ -47,48 +61,26 @@ jobs:
           name: wheelhouse
           path: ./wheelhouse/*.whl
 
-  # Ensure that wheel file names in README.md match file names from build
-  check-filenames:
-    runs-on: ubuntu-20.04
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v2
-        with:
-          name: wheelhouse
-      - name: Get file names from README to text file
-        run: |
-          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            release=$(echo "${{ github.ref }}" | cut -d/ -f3)
-            regex="https://github.com/Akuli/py-tree-sitter-builds/releases/download/$release/[^/ ]*\.whl"
-          else
-            regex="https://github.com/Akuli/py-tree-sitter-builds/releases/download/v[^/ ]*/[^/ ]*\.whl"
-          fi
-          echo "$regex"
-          grep -oE "$regex" README.md | xargs basename -a | sort | uniq > readme_filenames.txt
-      - name: Get list of relevant wheel file names built
-        run: |
-          printf "%s\n" *.whl | grep -vE 'pypy|musllinux' | sort > build_filenames.txt
-      - run: diff -u --color=always readme_filenames.txt build_filenames.txt
-
-  # To trigger a release:
-  #
-  #   $ sed -i s/v20[0-9][0-9]\.[0-9][0-9]\.[0-9][0-9]/v$(date +%Y-%m-%d)/g README.md
-  #   $ git add README.md
-  #   $ git commit -m "Replace new version to README"
-  #   $ git tag v$(date +%Y-%m-%d)
-  #   $ git push --tags origin main
   release:
     runs-on: ubuntu-latest
     # https://stackoverflow.com/a/58478262
-    needs: [check-filenames]
-    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build]
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: wheelhouse
-      - uses: softprops/action-gh-release@v0.1.14
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: dist
+      - run: ls -la
+      - run: ls -la dist
+
+      # To trigger a release:
+      #
+      #   $ git tag pypi-$(date +%Y.%m.%d)
+      #   $ git push --tags origin main
+      #
+      # To get consistent timestamps, avoid doing this just before midnight UTC.
+      - if: startsWith(github.ref, 'refs/tags/pypi-')
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          files: '*.whl'
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
