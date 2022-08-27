@@ -37,4 +37,4 @@ Here are the steps, at a high level:
 
 py-tree-sitter and this project are both licensed under the MIT license.
 [Here is the LICENSE file of py-tree-sitter.](https://github.com/tree-sitter/py-tree-sitter/blob/master/LICENSE)
-[Here is the LICENSE file of this project.](https://github.com/Akuli/py-tree-sitter-builds)
+[Here is the LICENSE file of this project.](https://github.com/Akuli/py-tree-sitter-builds/blob/main/LICENSE)
