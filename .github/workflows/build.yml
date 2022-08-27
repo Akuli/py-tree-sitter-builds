@@ -38,6 +38,12 @@ jobs:
       # Upload as tree-sitter-builds, not as tree-sitter
       - run: git apply this-repository/setup.patch
 
+      # Use this project's README as description in PyPI
+      - if: ${{ startsWith(matrix.os, 'windows') }}
+        run: copy this-repository\README.md README.md
+      - if: ${{ !startsWith(matrix.os, 'windows') }}
+        run: cp this-repository\README.md README.md
+
       # Download language repositories for py-tree-sitter tests
       - if: ${{ startsWith(matrix.os, 'windows') }}
         run: script\fetch-fixtures.cmd
