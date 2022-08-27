@@ -81,13 +81,15 @@ jobs:
 
   # To trigger a release:
   #
-  #   $ git tag v$(date +%Y-%m-%d)
+  #   $ git tag pypi-$(date +%Y-%m-%d)
   #   $ git push --tags origin main
+  #
+  # To get consistent timestamps, avoid doing this just before midnight UTC.
   release:
     runs-on: ubuntu-latest
     # https://stackoverflow.com/a/58478262
     needs: [check-filenames]
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/pypi-')
     steps:
       - uses: actions/download-artifact@v2
         with:
