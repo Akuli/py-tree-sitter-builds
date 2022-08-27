@@ -1,0 +1,19 @@
+[project]
+name = "tree-sitter-builds"
+version = "v2022-08-27"
+authors = [{name = "Akuli", email = "akuviljanen17@gmail.com"}]
+description = "Binary wheels for using py-tree-sitter without a C compiler"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Akuli/py-tree-sitter-builds"
+"Bug Tracker" = "https://github.com/Akuli/py-tree-sitter-builds/issues"
