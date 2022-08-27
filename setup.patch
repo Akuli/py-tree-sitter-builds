@@ -20,7 +20,7 @@ index 578d77a..06cbeee 100644
 -    maintainer="Max Brunsfeld",
 -    maintainer_email="maxbrunsfeld@gmail.com",
 +    name="tree-sitter-builds",
-+    version=datetime.utcnow().strftime("%Y-%m-%d"),  # Only used while building wheels
++    version=datetime.utcnow().strftime("%Y.%m.%d"),  # Only used while building wheels
 +    maintainer="Akuli",
 +    maintainer_email="akuviljanen17@gmail.com",
      author="Max Brunsfeld",

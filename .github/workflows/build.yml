@@ -81,7 +81,7 @@ jobs:
 
   # To trigger a release:
   #
-  #   $ git tag pypi-$(date +%Y-%m-%d)
+  #   $ git tag pypi-$(date +%Y.%m.%d)
   #   $ git push --tags origin main
   #
   # To get consistent timestamps, avoid doing this just before midnight UTC.
