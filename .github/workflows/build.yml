@@ -60,11 +60,12 @@ jobs:
     # https://stackoverflow.com/a/58478262
     needs: [build]
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: wheelhouse
-      - run: mv wheelhouse dist
-      - run: ls -l dist
+          path: dist
+      - run: ls -la
+      - run: ls -la dist
 
       # To trigger a release:
       #
