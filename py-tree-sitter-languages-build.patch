@@ -1,0 +1,15 @@
+diff --git a/build.py b/build.py
+index 4eb9bd1..6dd99f8 100644
+--- a/build.py
++++ b/build.py
+@@ -37,6 +37,10 @@ else:
+     languages_filename = "tree_sitter_languages/languages.so"
+ 
+ print(f"{sys.argv[0]}: Building", languages_filename)
++try:
++    os.remove(languages_filename)
++except FileNotFoundError:
++    pass
+ Language.build_library(
+     languages_filename,
+     [

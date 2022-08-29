@@ -1,0 +1,25 @@
+diff --git a/tests/test_tree_sitter.py b/tests/test_tree_sitter.py
+index d99a9f4..9bcc5f2 100644
+--- a/tests/test_tree_sitter.py
++++ b/tests/test_tree_sitter.py
+@@ -4,17 +4,10 @@ import re
+ from unittest import TestCase
+ from os import path
+ from tree_sitter import Language, Parser
++from tree_sitter_languages import get_language
+ 
+-LIB_PATH = path.join("build", "languages.so")
+-Language.build_library(
+-    LIB_PATH,
+-    [
+-        path.join("tests", "fixtures", "tree-sitter-python"),
+-        path.join("tests", "fixtures", "tree-sitter-javascript"),
+-    ],
+-)
+-PYTHON = Language(LIB_PATH, "python")
+-JAVASCRIPT = Language(LIB_PATH, "javascript")
++PYTHON = get_language("python")
++JAVASCRIPT = get_language("javascript")
+ 
+ 
+ class TestParser(TestCase):

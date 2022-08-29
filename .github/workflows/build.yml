@@ -15,47 +15,60 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           repository: tree-sitter/py-tree-sitter
           ref: v0.20.0
           submodules: true
+          path: py-tree-sitter
       - uses: actions/checkout@v3
         with:
-          path: this-repository
-      - uses: actions/setup-python@v2
+          repository: grantjenks/py-tree-sitter-languages
+          ref: v1.4.0
+          path: py-tree-sitter-languages
+
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
+      - run: mv py-tree-sitter/tree_sitter .
+        shell: bash
+      - run: mv py-tree-sitter-languages/{tree_sitter_languages,build.py,repos.txt} .
+        shell: bash
+
+      # Create a tests directory that contains tests from both py-tree-sitter and py-tree-sitter-languages.
+      - run: mkdir tests
+        shell: bash
+      - run: mv {py-tree-sitter,py-tree-sitter-languages}/tests/*.py tests/
+        shell: bash
+
       # cibuildwheel uses a funny working directory when running tests.
       # This is by design, this way tests import whatever is installed and not from the project.
-      # This means that the tests can't load files from the current working directory.
-      # Fix them to not rely on current working directory.
-      #
-      # Also rebuild the languages binary for each wheel.
-      # By default it uses modified time with nothing to distinguish different Pythons.
-      - run: git apply this-repository/tests.patch
+      # If there is __init__.py, it causes pytest to be "helpful" by making sys.path[0] the project directory.
+      - run: rm tests/__init__.py
+        shell: bash
 
-      # Upload as tree-sitter-builds, not as tree-sitter
-      - run: git apply this-repository/setup.patch
+      - run: ls -l . tests
+        shell: bash
 
-      # Use this project's README as description in PyPI
-      - if: ${{ startsWith(matrix.os, 'windows') }}
-        run: copy this-repository\README.md README.md
-      - if: ${{ !startsWith(matrix.os, 'windows') }}
-        run: cp this-repository/README.md README.md
+      # Change test_tree_sitter.py to use py-tree-sitter-languages
+      - run: git apply py-tree-sitter-tests.patch
 
-      # Download language repositories for py-tree-sitter tests
-      - if: ${{ startsWith(matrix.os, 'windows') }}
-        run: script\fetch-fixtures.cmd
-      - if: ${{ !startsWith(matrix.os, 'windows') }}
-        run: script/fetch-fixtures
+      # Always rebuild the languages binary (otherwise reuses them and tests fail)
+      - run: git apply py-tree-sitter-languages-build.patch
+
+      # py-tree-sitter-languages uses pytest to run tests, which is compatible with the
+      # unittest tests that py-tree-sitter has.
+      - name: 'Get CIBW_* environment variables from py-tree-sitter-languages'
+        run: |
+          grep CIBW_ py-tree-sitter-languages/.github/workflows/release.yml | sed s/'^ *'// | sed s/': '/=/ | tee -a $GITHUB_ENV
+        shell: bash
 
       # Build wheels
       - run: pip install cibuildwheel==2.9.0
       - run: python -m cibuildwheel --output-dir wheelhouse
-        env:
-          CIBW_TEST_COMMAND: python -m unittest discover -s {project}/tests
-          CIBW_ARCHS_MACOS: x86_64 arm64
+
+      # Make wheels downloadable from GitHub UI and from the pypi step
       - uses: actions/upload-artifact@v2
         with:
           name: wheelhouse
