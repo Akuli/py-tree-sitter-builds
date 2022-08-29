@@ -39,6 +39,7 @@ jobs:
 
       # Create a tests directory that contains tests from both py-tree-sitter and py-tree-sitter-languages.
       - run: mkdir tests
+        shell: bash
       - run: mv {py-tree-sitter,py-tree-sitter-languages}/tests/*.py tests/
         shell: bash
 
