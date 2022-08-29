@@ -33,8 +33,9 @@ Read `.github/workflows/build.yml` to see how GitHub actions builds the wheels.
 Here are the steps, at a high level:
 - Download py-tree-sitter v0.20.0 and py-tree-sitter-languages v1.4.0 from GitHub
     (these are the latest released versions at the time of writing this)
-- Create a `tests` directory that contains the tests from both of them,
-    with small edits done to make the tests work here
+- Move downloaded files to the correct places,
+    so that the resulting wheels will contain both `tree_sitter` and `tree_sitter_languages`
+- Apply patches to the tests of `tree_sitter` and `tree_sitter_languages` so that they work here
 - Invoke [cibuildwheel](https://github.com/pypa/cibuildwheel) with the same configuration as py-tree-sitter-languages uses
 - Once the above steps have ran on Windows, MacOS and Linux, upload the wheels to PyPI
 
