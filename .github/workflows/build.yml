@@ -33,7 +33,6 @@ jobs:
 
       - run: mv py-tree-sitter/tree_sitter .
         shell: bash
-
       - run: mv py-tree-sitter-languages/{tree_sitter_languages,build.py,repos.txt} .
         shell: bash
 
