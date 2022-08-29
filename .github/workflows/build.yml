@@ -30,29 +30,24 @@ jobs:
         with:
           python-version: '3.10'
 
-      # Using python because I don't want to do everything twice with bash and windows syntax
-      - run: |
-          import os
-          import shutil
+      - run: cp -r py-tree-sitter/tree_sitter .
+        shell: bash
+      - run: cp -r py-tree-sitter-languages/{tree_sitter_languages,build.py,repos.txt} .
+        shell: bash
 
-          shutil.copytree("py-tree-sitter/tree_sitter", "tree_sitter")
-          shutil.copytree("py-tree-sitter-languages/tree_sitter_languages", "tree_sitter_languages")
-          shutil.copyfile("py-tree-sitter-languages/build.py", "build.py")
-          shutil.copyfile("py-tree-sitter-languages/repos.txt", "repos.txt")
+      # Create a tests directory that contains tests from both py-tree-sitter and py-tree-sitter-languages.
+      - run: mkdir tests
+      - run: cp {py-tree-sitter,py-tree-sitter-languages}/tests/*.py tests/
+        shell: bash
 
-          # Create a tests directory that contains tests from both py-tree-sitter and py-tree-sitter-languages.
-          #
-          # Note that there is no __init__.py!
-          # cibuildwheel uses a funny working directory when running tests.
-          # This is by design, this way tests import whatever is installed and not from the project.
-          # If there is __init__.py, it causes pytest to be "helpful" by making sys.path[0] the project directory.
-          os.mkdir("tests")
-          assert set(os.listdir("py-tree-sitter/tests")) == {"__init__.py", "test_tree_sitter.py"}
-          assert set(os.listdir("py-tree-sitter-languages/tests")) == {"test_tree_sitter_languages.py"}
-          shutil.copyfile("py-tree-sitter/tests/test_tree_sitter.py", "tests/test_tree_sitter.py")
-          shutil.copyfile("py-tree-sitter-languages/tests/test_tree_sitter_languages.py", "tests/test_tree_sitter_languages.py")
+      # cibuildwheel uses a funny working directory when running tests.
+      # This is by design, this way tests import whatever is installed and not from the project.
+      # If there is __init__.py, it causes pytest to be "helpful" by making sys.path[0] the project directory.
+      - run: rm tests/__init__.py
+        shell: bash
 
-        shell: python
+      - run: ls -l tests
+        shell: bash
 
       # Change test_tree_sitter.py to use py-tree-sitter-languages
       - run: git apply py-tree-sitter-tests.patch
@@ -60,21 +55,9 @@ jobs:
       # Get CIBW_... environment variables from py-tree-sitter-languages to the current environment.
       # They use pytest to run tests, which is fine even though py-tree-sitter uses unittest:
       # pytest is compatible with tests written for unittest.
-      - run: pip install PyYAML==6.0
       - run: |
-          with open("py-tree-sitter-languages/.github/workflows/release.yml") as file:
-              steps = yaml.safe_load(file)["jobs"]["build"]["steps"]
-
-          [cibw_env] = [s["env"] for s in steps if s.get("run") == "python -m cibuildwheel --output-dir wheelhouse"]
-          assert len(cibw_env) == 5
-          assert all(k.startswith("CIBW_") for k in cibw_env.keys())
-
-          # https://stackoverflow.com/a/57969570
-          with open(os.environ["GITHUB_ENV"], "a") as file:
-              for k, v in cibw_env.items():
-                  file.write(f"{k}={v}\n")
-
-        shell: python
+          grep CIBW_ py-tree-sitter-languages/.github/workflows/release.yml | sed s/'^ *'// | sed s/': '/=/ | tee -a $GITHUB_ENV
+        shell: bash
 
       # Build wheels
       - run: pip install cibuildwheel==2.9.0
