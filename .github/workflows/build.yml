@@ -54,6 +54,9 @@ jobs:
       # Change test_tree_sitter.py to use py-tree-sitter-languages
       - run: git apply py-tree-sitter-tests.patch
 
+      # Always rebuild the languages binary (otherwise reuses them and tests fail)
+      - run: git apply py-tree-sitter-languages-build.patch
+
       # py-tree-sitter-languages uses pytest to run tests, which is compatible with the
       # unittest tests that py-tree-sitter has.
 #      - name: 'Get CIBW_* environment variables from py-tree-sitter-languages'
