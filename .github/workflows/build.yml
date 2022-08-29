@@ -34,7 +34,7 @@ jobs:
       # "cp" doesn't work with symlinks on windows. Someone thought it would be a good
       # idea to have CONTRIBUTING.md be a symlink to docs/section-6-contributing.md...
       - if: ${{ startsWith(matrix.os, 'windows') }}
-        run: xcopy py-tree-sitter\tree_sitter .
+        run: xcopy /e py-tree-sitter\tree_sitter .
       - if: ${{ !startsWith(matrix.os, 'windows') }}
         run: cp -r py-tree-sitter/tree_sitter .
 
