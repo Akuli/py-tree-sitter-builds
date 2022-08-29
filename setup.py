@@ -22,7 +22,7 @@ setup(
         "Source": "https://github.com/Akuli/py-tree-sitter-builds",
         "Tracker": "https://github.com/Akuli/py-tree-sitter-builds/issues",
     },
-    license="MIT",
+    license="Apache 2.0",
     packages=["tree_sitter", "tree_sitter_languages"],
     ext_modules=[
         # tree_sitter
