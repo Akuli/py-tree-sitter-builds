@@ -59,19 +59,14 @@ jobs:
 
       # py-tree-sitter-languages uses pytest to run tests, which is compatible with the
       # unittest tests that py-tree-sitter has.
-#      - name: 'Get CIBW_* environment variables from py-tree-sitter-languages'
-#        run: |
-#          grep CIBW_ py-tree-sitter-languages/.github/workflows/release.yml | sed s/'^ *'// | sed s/': '/=/ | tee -a $GITHUB_ENV
-#        shell: bash
+      - name: 'Get CIBW_* environment variables from py-tree-sitter-languages'
+        run: |
+          grep CIBW_ py-tree-sitter-languages/.github/workflows/release.yml | sed s/'^ *'// | sed s/': '/=/ | tee -a $GITHUB_ENV
+        shell: bash
 
       # Build wheels
       - run: pip install cibuildwheel==2.9.0
       - run: python -m cibuildwheel --output-dir wheelhouse
-        env:
-          CIBW_BUILD: cp38-win_amd64 cp38-win32
-          CIBW_BEFORE_BUILD: pip install cython==0.29.32 && pip install -e . && python build.py
-          CIBW_TEST_REQUIRES: pytest
-          CIBW_TEST_COMMAND: pytest {package}/tests
 
       # Make wheels downloadable from GitHub UI and from the pypi step
       - uses: actions/upload-artifact@v2
