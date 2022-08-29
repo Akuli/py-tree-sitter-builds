@@ -58,10 +58,10 @@ jobs:
       # Change test_tree_sitter.py to use py-tree-sitter-languages
       - run: git apply py-tree-sitter-tests.patch
 
-      # Get CIBW_... environment variables from py-tree-sitter-languages to the current environment.
-      # They use pytest to run tests, which is fine even though py-tree-sitter uses unittest:
-      # pytest is compatible with tests written for unittest.
-      - run: |
+      # py-tree-sitter-languages uses pytest to run tests, which is compatible with the
+      # unittest tests that py-tree-sitter has.
+      - name: 'Get CIBW_* environment variables from py-tree-sitter-languages'
+        run: |
           grep CIBW_ py-tree-sitter-languages/.github/workflows/release.yml | sed s/'^ *'// | sed s/': '/=/ | tee -a $GITHUB_ENV
         shell: bash
 
