@@ -31,19 +31,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      # "cp" doesn't work with symlinks on windows. Someone thought it would be a good
-      # idea to have CONTRIBUTING.md be a symlink to docs/section-6-contributing.md...
-      - if: ${{ startsWith(matrix.os, 'windows') }}
-        run: xcopy /e py-tree-sitter\tree_sitter .
-      - if: ${{ !startsWith(matrix.os, 'windows') }}
-        run: cp -r py-tree-sitter/tree_sitter .
+      - run: mv py-tree-sitter/tree_sitter .
+        shell: bash
 
-      - run: cp -r py-tree-sitter-languages/{tree_sitter_languages,build.py,repos.txt} .
+      - run: mv py-tree-sitter-languages/{tree_sitter_languages,build.py,repos.txt} .
         shell: bash
 
       # Create a tests directory that contains tests from both py-tree-sitter and py-tree-sitter-languages.
       - run: mkdir tests
-      - run: cp {py-tree-sitter,py-tree-sitter-languages}/tests/*.py tests/
+      - run: mv {py-tree-sitter,py-tree-sitter-languages}/tests/*.py tests/
         shell: bash
 
       # cibuildwheel uses a funny working directory when running tests.
