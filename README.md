@@ -42,7 +42,7 @@ Here are the steps, at a high level:
 ## License
 
 The wheels consist of various parts licensed under MIT and Apache 2.0 licenses:
-- This project is licensed under [the MIT license](https://github.com/Akuli/py-tree-sitter-builds/blob/main/LICENSE).
+- This project is licensed under [the Apache 2.0 license](https://github.com/Akuli/py-tree-sitter-builds/blob/main/LICENSE).
 - py-tree-sitter is licensed under [the MIT license]https://github.com/tree-sitter/py-tree-sitter/blob/master/LICENSE).
 - py-tree-sitter-languages is licensed under [the Apache 2.0 license](https://github.com/grantjenks/py-tree-sitter-languages/blob/main/LICENSE).
 - py-tree-sitter-languages includes various other projects licensed under MIT and Apache 2.0 licenses.
