@@ -1,8 +1,8 @@
 diff --git a/tests/test_tree_sitter.py b/tests/test_tree_sitter.py
-index d99a9f4..573e3f7 100644
+index d99a9f4..9bcc5f2 100644
 --- a/tests/test_tree_sitter.py
 +++ b/tests/test_tree_sitter.py
-@@ -4,17 +4,11 @@ import re
+@@ -4,17 +4,10 @@ import re
  from unittest import TestCase
  from os import path
  from tree_sitter import Language, Parser
