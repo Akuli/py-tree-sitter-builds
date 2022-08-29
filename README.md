@@ -41,6 +41,9 @@ Here are the steps, at a high level:
 
 ## License
 
-py-tree-sitter and this project are both licensed under the MIT license.
-[Here is the LICENSE file of py-tree-sitter.](https://github.com/tree-sitter/py-tree-sitter/blob/master/LICENSE)
-[Here is the LICENSE file of this project.](https://github.com/Akuli/py-tree-sitter-builds/blob/main/LICENSE)
+The wheels consist of various parts licensed under MIT and Apache 2.0 licenses:
+- This project is licensed under [the MIT license](https://github.com/Akuli/py-tree-sitter-builds/blob/main/LICENSE).
+- py-tree-sitter is licensed under [the MIT license]https://github.com/tree-sitter/py-tree-sitter/blob/master/LICENSE).
+- py-tree-sitter-languages is licensed under [the Apache 2.0 license](https://github.com/grantjenks/py-tree-sitter-languages/blob/main/LICENSE).
+- py-tree-sitter-languages includes various other projects licensed under MIT and Apache 2.0 licenses.
+    There is [a full list](https://github.com/grantjenks/py-tree-sitter-languages/tree/v1.4.0#license in its README).
