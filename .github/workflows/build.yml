@@ -19,6 +19,7 @@ jobs:
         with:
           repository: tree-sitter/py-tree-sitter
           ref: v0.20.0
+          submodules: true
           path: py-tree-sitter
       - uses: actions/checkout@v3
         with:
