@@ -64,6 +64,8 @@ jobs:
       # Build wheels
       - run: pip install cibuildwheel==2.9.0
       - run: python -m cibuildwheel --output-dir wheelhouse
+        env:
+          CIBW_TEST_COMMAND: pytest -l {package}/tests
 
       # Make wheels downloadable from GitHub UI and from the pypi step
       - uses: actions/upload-artifact@v2
