@@ -27,7 +27,7 @@ jobs:
           ref: v1.4.0
           path: py-tree-sitter-languages
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
