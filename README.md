@@ -46,4 +46,4 @@ The wheels consist of various parts licensed under MIT and Apache 2.0 licenses:
 - py-tree-sitter is licensed under [the MIT license]https://github.com/tree-sitter/py-tree-sitter/blob/master/LICENSE).
 - py-tree-sitter-languages is licensed under [the Apache 2.0 license](https://github.com/grantjenks/py-tree-sitter-languages/blob/main/LICENSE).
 - py-tree-sitter-languages includes various other projects licensed under MIT and Apache 2.0 licenses.
-    There is [a full list](https://github.com/grantjenks/py-tree-sitter-languages/tree/v1.4.0#license in its README).
+    There is [a full list](https://github.com/grantjenks/py-tree-sitter-languages/tree/v1.4.0#license) in its README.
