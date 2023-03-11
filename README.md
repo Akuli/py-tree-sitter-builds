@@ -11,8 +11,8 @@ This project lets you use py-tree-sitter without a C compiler
 by providing binary wheels that were built using a C compiler,
 but don't require a C compiler to be installed.
 The wheels contain:
-- the `tree_sitter` module from [py-tree-sitter](https://pypi.org/project/tree-sitter/) v0.20.0
-- the `tree_sitter_languages` module from [py-tree-sitter-languages](https://pypi.org/project/tree-sitter-languages/) v1.4.0
+- the `tree_sitter` module from [py-tree-sitter](https://pypi.org/project/tree-sitter/) v0.20.1
+- the `tree_sitter_languages` module from [py-tree-sitter-languages](https://pypi.org/project/tree-sitter-languages/) v1.5.0
 
 
 ## Installation
@@ -23,15 +23,15 @@ $ pip install tree-sitter-builds
 
 After installing, `import tree_sitter` and `import tree_sitter_languages` should work.
 For documentation, see the documentation of:
-- [py-tree-sitter-languages](https://pypi.org/project/tree-sitter-languages/1.4.0/)
-- [py-tree-sitter](https://pypi.org/project/tree-sitter/0.20.0/) (use `tree_sitter_languages` instead of the "Setup" part)
+- [py-tree-sitter-languages](https://pypi.org/project/tree-sitter-languages/1.5.0/)
+- [py-tree-sitter](https://pypi.org/project/tree-sitter/0.20.1/) (use `tree_sitter_languages` instead of the "Setup" part)
 
 
 ## How does it work?
 
 Read `.github/workflows/build.yml` to see how GitHub actions builds the wheels.
 Here are the steps, at a high level:
-- Download py-tree-sitter v0.20.0 and py-tree-sitter-languages v1.4.0 from GitHub
+- Download py-tree-sitter v0.20.1 and py-tree-sitter-languages v1.5.0 from GitHub
     (these are the latest released versions at the time of writing this)
 - Move downloaded files to the correct places,
     so that the resulting wheels will contain both `tree_sitter` and `tree_sitter_languages`
@@ -47,4 +47,4 @@ The wheels consist of various parts licensed under MIT and Apache 2.0 licenses:
 - py-tree-sitter is licensed under [the MIT license](https://github.com/tree-sitter/py-tree-sitter/blob/master/LICENSE).
 - py-tree-sitter-languages is licensed under [the Apache 2.0 license](https://github.com/grantjenks/py-tree-sitter-languages/blob/main/LICENSE).
 - py-tree-sitter-languages includes various other projects licensed under MIT and Apache 2.0 licenses.
-    There is [a full list](https://github.com/grantjenks/py-tree-sitter-languages/tree/v1.4.0#license) in its README.
+    There is [a full list](https://github.com/grantjenks/py-tree-sitter-languages/tree/v1.5.0#license) in its README.
